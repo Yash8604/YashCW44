@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NicheHub - Rich Profile Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        nav {
+            margin: 20px 0;
+        }
+
+        nav a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        input[type="text"], select {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="file"] {
+            margin: 15px 0;
+        }
+
+        #editorToolbar {
+            margin: 15px 0;
+        }
+
+        #editorToolbar button {
+            padding: 8px 12px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #editorToolbar button:hover {
+            background-color: #0056b3;
+        }
+
+        #bioEditor {
+            width: 90%;
+            height: 150px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        button[type="submit"] {
+            padding: 10px 25px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        label {
+            font-size: 18px;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input[type="checkbox"] {
+            margin: 10px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NicheHub</h1>
+
+        <nav>
+            <a href="#">Home</a> |
+            <a href="#">Community</a> |
+            <a href="#">Profile</a>
+        </nav>
+
+        <input type="text" placeholder="Search communities...">
+        <select>
+            <option>All Categories</option>
+        </select>
+
+        <h2>Community: Tech Innovators</h2>
+
+        <nav>
+            <a href="#">Home</a> |
+            <a href="#">Profile</a> |
+            <a href="#">Post</a>
+        </nav>
+
+        <h3>Your Profile</h3>
+
+        <form id="profileForm">
+            <input type="file"><br><br>
+            <input type="text" placeholder="Your name" id="nameInput"><br><br>
+
+            <label>About You:</label>
+            <div id="editorToolbar">
+                <button type="button" onclick="formatText('bold')"><b>B</b></button>
+                <button type="button" onclick="formatText('italic')"><i>I</i></button>
+                <button type="button" onclick="insertImage()">🖼️ Image</button>
+            </div>
+
+            <div id="bioEditor" contenteditable="true" placeholder="Tell us about yourself..."></div><br>
+
+            <label>Select Interests:</label><br>
+            <input type="checkbox" id="tech">
+            <label for="tech">Technology</label>
+            <input type="checkbox" id="fitness">
+            <label for="fitness">Fitness</label>
+            <input type="checkbox" id="books">
+            <label for="books">Books</label><br><br>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <script>
+        function formatText(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function insertImage() {
+            const url = prompt("Enter Image URL:");
+            if (url) {
+                document.execCommand('insertImage', false, url);
+            }
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('nameInput').value;
+            const bio = document.getElementById('bioEditor').innerHTML;
+            const interests = [];
+            if (document.getElementById('tech').checked) interests.push('Technology');
+            if (document.getElementById('fitness').checked) interests.push('Fitness');
+            if (document.getElementById('books').checked) interests.push('Books');
+
+            alert(`Profile Saved!\n\nName: ${name}\nInterests: ${interests.join(', ')}\n\nBio Content:\n${bio}`);
+        });
+    </script>
+</body>
+</html>
